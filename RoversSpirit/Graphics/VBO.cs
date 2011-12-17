@@ -3,7 +3,7 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Monocle.Graphics
+namespace RoversSpirit.Graphics
 {
 	public class VBO
 	{
@@ -15,7 +15,7 @@ namespace Monocle.Graphics
 		/// <summary>
 		/// Gets the OpenGL handle to this VBO.
 		/// </summary>
-		public int ID { get { return id; } }
+		public int ID { get { return id; } set { id = value; } }
 
 		public bool Exists
 		{

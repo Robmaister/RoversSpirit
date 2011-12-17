@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 
 using OpenTK.Graphics.OpenGL;
 
-namespace Monocle.Graphics
+namespace RoversSpirit.Graphics
 {
 	/// <summary>
 	/// A class containing the information for an OpenGL texture.

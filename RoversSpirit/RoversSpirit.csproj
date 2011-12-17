@@ -39,17 +39,30 @@
     <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\assemblies\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="QuickFont">
+      <HintPath>..\assemblies\QuickFont.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\BufferSet.cs" />
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Graphics\Resources.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\VBO.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Textures\player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

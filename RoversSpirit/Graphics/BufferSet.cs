@@ -2,7 +2,7 @@
 
 using OpenTK.Graphics.OpenGL;
 
-namespace Monocle.Graphics
+namespace RoversSpirit.Graphics
 {
 	/// <summary>
 	/// An bitfield of possible buffers to draw with.
