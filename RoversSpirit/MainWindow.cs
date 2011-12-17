@@ -38,7 +38,7 @@ namespace RoversSpirit
 		{
 			this.Title = "Rover's Spirit";
 
-			curState = new WorldState();
+			curState = new MenuState();
 			state = curState;
 
 			Keyboard.KeyDown += OnKeyDown;
@@ -70,6 +70,7 @@ namespace RoversSpirit
 				curState.OnUnload(new EventArgs());
 				curState = state;
 				curState.OnLoad(new EventArgs());
+				curState.OnResize(new EventArgs(), ClientSize);
 			}
 		}
 

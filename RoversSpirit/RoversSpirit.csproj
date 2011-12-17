@@ -58,6 +58,7 @@
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\VBO.cs" />
     <Compile Include="MainWindow.cs" />
+    <Compile Include="MenuState.cs" />
     <Compile Include="Physics\PhysicsManager.cs" />
     <Compile Include="Physics\AABB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
