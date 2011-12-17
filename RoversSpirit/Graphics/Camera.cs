@@ -90,7 +90,7 @@ namespace RoversSpirit.Graphics
 
 		private void RebuildView()
 		{
-			view = Matrix4.CreateTranslation(position.X, position.Y, 0);
+			view = Matrix4.CreateTranslation(-position.X, position.Y, 0);
 		}
 	}
 }

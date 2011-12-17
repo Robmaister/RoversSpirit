@@ -1,35 +1,46 @@
 ﻿using System;
 
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 using RoversSpirit.Graphics;
+using RoversSpirit.Physics;
 
 namespace RoversSpirit
 {
-	public class Player
+	public class Entity
 	{
-		public BufferSet buffers;
-		public Texture tex;
+		private BufferSet buffers;
 
-		private Matrix4 model;
+		protected Vector2 position, size;
+		protected Matrix4 model;
 
-		private Vector2 position;
+		protected Texture tex;
 
-		public Player()
-			: this(new Vector2(0, 0))
+		protected bool physStatic;
+
+		public AABB BoundingBox
 		{
+			get
+			{
+				Vector2 halfSize = size * .5f;
+				return new AABB(position.X - halfSize.X, position.X + halfSize.X, position.Y + halfSize.Y, position.Y - halfSize.Y);
+			}
 		}
 
-		public Player(Vector2 position)
+		public Vector2 Position { get { return position; } }
+
+		public Entity(Vector2 position, Vector2 size, Texture tex)
 		{
+			float x = size.X / 2.0f;
+			float y = size.Y / 2.0f;
+
 			float[] vertices = 
 			{
-				-16, 16,
-				-16, -16,
-				16, 16,
-				16, -16
+				-x, y,
+				-x, -y,
+				x, y,
+				x, -y
 			};
 
 			float[] texcoords =
@@ -59,9 +70,10 @@ namespace RoversSpirit
 			buffers.DrawMode = BeginMode.TriangleStrip;
 			buffers.SetDrawState(DrawStates.Vertex | DrawStates.TexCoord);
 
-			tex = Resources.Textures["player.png"];
-
+			this.size = size;
 			this.position = position;
+			this.tex = tex;
+
 			RebuildModelMatrix();
 		}
 
@@ -71,12 +83,21 @@ namespace RoversSpirit
 
 			GL.BindTexture(TextureTarget.Texture2D, tex);
 			buffers.Draw();
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		public virtual void Update(double time)
+		{
 		}
 
 		public void MoveBy(Vector2 distance)
 		{
 			position += distance;
+			RebuildModelMatrix();
+		}
+
+		public void MoveTo(Vector2 position)
+		{
+			this.position = position;
 			RebuildModelMatrix();
 		}
 
