@@ -17,7 +17,7 @@ namespace RoversSpirit.Entities
 		}
 
 		public Player(Vector2 position)
-			: base(position, new Vector2(64, 64), Resources.Textures["player.png"])
+			: base(position, new Vector2(64, 64), Resources.Textures["player.png"], true)
 		{
 		}
 	}

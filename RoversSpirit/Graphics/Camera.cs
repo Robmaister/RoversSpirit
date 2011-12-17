@@ -69,13 +69,14 @@ namespace RoversSpirit.Graphics
 			RebuildView();
 
 			//negative height because QuickFont is upside down otherwise.
-			uiProj = Matrix4.CreateOrthographic(ClientSize.Width, -ClientSize.Height, 0, 1);
+			//uiProj = Matrix4.CreateOrthographic(ClientSize.Width, -ClientSize.Height, 0, 1);
+			uiProj = Matrix4.CreateOrthographicOffCenter(0, ClientSize.Width, ClientSize.Height, 0, 0, 1);
 		}
 
 		public void UseWorldProjection()
 		{
 			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadMatrix(ref uiProj);
+			GL.LoadMatrix(ref proj);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadMatrix(ref view);
 		}
@@ -90,7 +91,7 @@ namespace RoversSpirit.Graphics
 
 		private void RebuildView()
 		{
-			view = Matrix4.CreateTranslation(-position.X, position.Y, 0);
+			view = Matrix4.CreateTranslation(-position.X, -position.Y, 0);
 		}
 	}
 }

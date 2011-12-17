@@ -17,7 +17,7 @@ namespace RoversSpirit
 
 		protected Texture tex;
 
-		protected bool physStatic;
+		protected bool solid;
 
 		public AABB BoundingBox
 		{
@@ -31,7 +31,9 @@ namespace RoversSpirit
 		public Vector2 Position { get { return position; } }
 		public Vector2 Size { get { return size; } }
 
-		public Entity(Vector2 position, Vector2 size, Texture tex)
+		public bool Solid { get { return solid; } }
+
+		public Entity(Vector2 position, Vector2 size, Texture tex, bool solid)
 		{
 			float x = size.X / 2.0f;
 			float y = size.Y / 2.0f;
@@ -46,10 +48,10 @@ namespace RoversSpirit
 
 			float[] texcoords =
 			{
-				0, 0,
 				0, 1,
-				1, 0,
-				1, 1
+				0, 0,
+				1, 1,
+				1, 0
 			};
 
 			byte[] indices = 
@@ -74,6 +76,8 @@ namespace RoversSpirit
 			this.size = size;
 			this.position = position;
 			this.tex = tex;
+
+			this.solid = solid;
 
 			RebuildModelMatrix();
 		}
@@ -104,7 +108,7 @@ namespace RoversSpirit
 
 		public void RebuildModelMatrix()
 		{
-			model = Matrix4.CreateTranslation(position.X, -position.Y, 0);
+			model = Matrix4.CreateTranslation(position.X, position.Y, 0);
 		}
 	}
 }
