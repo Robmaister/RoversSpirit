@@ -12,6 +12,7 @@ namespace RoversSpirit
 	{
 		private BufferSet buffers;
 
+		protected float angle;
 		protected Vector2 position, size;
 		protected Matrix4 model;
 
@@ -32,6 +33,21 @@ namespace RoversSpirit
 		public Vector2 Size { get { return size; } }
 
 		public bool Solid { get { return solid; } }
+
+		public float Angle
+		{
+			get { return angle; }
+			set
+			{
+				angle = value;
+				//snap to nearest 90deg angle.
+				angle %= MathHelper.TwoPi;
+				if (angle > 7 * MathHelper.PiOver4 && angle <= MathHelper.PiOver4) angle = 0;
+				if (angle > MathHelper.PiOver4 && angle <= 3 * MathHelper.PiOver4) angle = MathHelper.PiOver2;
+				if (angle > 3 * MathHelper.PiOver4 && angle <= 5 * MathHelper.PiOver4) angle = MathHelper.Pi;
+				if (angle > 5 * MathHelper.PiOver4 && angle <= 7 * MathHelper.PiOver4) angle = 3 * MathHelper.PiOver2;
+			}
+		}
 
 		public Entity(Vector2 position, Vector2 size, Texture tex, bool solid)
 		{
@@ -108,7 +124,7 @@ namespace RoversSpirit
 
 		public void RebuildModelMatrix()
 		{
-			model = Matrix4.CreateTranslation(position.X, position.Y, 0);
+			model = Matrix4.CreateRotationZ(angle) * Matrix4.CreateTranslation(position.X, position.Y, 0);
 		}
 	}
 }

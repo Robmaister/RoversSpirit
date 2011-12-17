@@ -129,12 +129,46 @@ namespace RoversSpirit
 				case Key.Escape:
 					MainWindow.exit = true;
 					break;
+				case Key.Left:
+					player.Angle = MathHelper.PiOver2;
+					break;
+				case Key.Right:
+					player.Angle = 3 * MathHelper.PiOver2;
+					break;
+				case Key.Up:
+					player.Angle = 0;
+					break;
+				case Key.Down:
+					player.Angle = 3 * MathHelper.Pi;
+					break;
 			}
 		}
 
 		public void OnKeyUp(object sender, KeyboardKeyEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
 		{
-			
+			switch (e.Key)
+			{
+				case Key.Left:
+					if (Keyboard[Key.Right]) player.Angle = 3 * MathHelper.PiOver2;
+					if (Keyboard[Key.Up]) player.Angle = 0;
+					if (Keyboard[Key.Down]) player.Angle = MathHelper.Pi;
+					break;
+				case Key.Right:
+					if (Keyboard[Key.Left]) player.Angle = MathHelper.PiOver2;
+					if (Keyboard[Key.Up]) player.Angle = 0;
+					if (Keyboard[Key.Down]) player.Angle = MathHelper.Pi;
+					break;
+				case Key.Up:
+					if (Keyboard[Key.Left]) player.Angle = MathHelper.PiOver2;
+					if (Keyboard[Key.Right]) player.Angle = 3 * MathHelper.PiOver2;
+					if (Keyboard[Key.Down]) player.Angle = MathHelper.Pi;
+					break;
+				case Key.Down:
+					if (Keyboard[Key.Left]) player.Angle = MathHelper.PiOver2;
+					if (Keyboard[Key.Right]) player.Angle = 3 * MathHelper.PiOver2;
+					if (Keyboard[Key.Up]) player.Angle = 0;
+					break;
+			}
 		}
 
 		public void OnMouseDown(object sender, MouseEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
