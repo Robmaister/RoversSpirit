@@ -110,6 +110,11 @@ namespace RoversSpirit
 		{
 		}
 
+		public virtual void Unload()
+		{
+			buffers.Unload();
+		}
+
 		public void MoveBy(Vector2 distance)
 		{
 			position += distance;

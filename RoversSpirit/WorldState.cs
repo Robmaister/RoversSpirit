@@ -49,6 +49,10 @@ namespace RoversSpirit
 			Resources.Textures["pebble1.png"].MinFilter = TextureMinFilter.Nearest;
 			Resources.Textures["pebble2.png"].MagFilter = TextureMagFilter.Nearest;
 			Resources.Textures["pebble2.png"].MinFilter = TextureMinFilter.Nearest;
+			Resources.Textures["playerf1.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["playerf1.png"].MinFilter = TextureMinFilter.Nearest;
+			Resources.Textures["playerf2.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["playerf2.png"].MinFilter = TextureMinFilter.Nearest;
 
 			for (int i = 0; i < 30; i++)
 			{
