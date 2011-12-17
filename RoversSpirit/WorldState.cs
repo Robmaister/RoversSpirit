@@ -61,16 +61,34 @@ namespace RoversSpirit
 
 		public void OnUpdateFrame(FrameEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
 		{
+			player.Moving = false;
+
 			if (Keyboard[Key.Up])
+			{
 				player.MoveBy(new Vector2(0, 2.9f));
+				player.Moving = true;
+			}
+
 			if (Keyboard[Key.Down])
+			{
 				player.MoveBy(new Vector2(0, -2.9f));
+				player.Moving = true;
+			}
+
 			if (Keyboard[Key.Left])
+			{
 				player.MoveBy(new Vector2(-2.9f, 0));
+				player.Moving = true;
+			}
+
 			if (Keyboard[Key.Right])
+			{
 				player.MoveBy(new Vector2(2.9f, 0));
+				player.Moving = true;
+			}
 
 			c.Update(e.Time);
+			player.Update(e.Time);
 
 			c.JumpTo(player.Position);
 
