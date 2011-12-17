@@ -84,7 +84,10 @@ namespace RoversSpirit
 			foreach (Entity ent in entList)
 			{
 				if (PhysicsManager.IsColliding(player, ent))
+				{
 					collisionDetected = true;
+					player.MoveBy(PhysicsManager.ReactCollision(player, ent));
+				}
 			}
 		}
 

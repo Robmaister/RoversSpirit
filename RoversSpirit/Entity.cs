@@ -29,6 +29,7 @@ namespace RoversSpirit
 		}
 
 		public Vector2 Position { get { return position; } }
+		public Vector2 Size { get { return size; } }
 
 		public Entity(Vector2 position, Vector2 size, Texture tex)
 		{
