@@ -55,6 +55,9 @@
     <Compile Include="Entities\BldgWall.cs" />
     <Compile Include="Entities\Door.cs" />
     <Compile Include="Entities\DoorKey.cs" />
+    <Compile Include="Entities\Fuse.cs" />
+    <Compile Include="Entities\ShipCore.cs" />
+    <Compile Include="Entities\Switch.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="Graphics\ColorBox.cs" />
     <Compile Include="IState.cs" />
@@ -99,7 +102,13 @@
     <Content Include="Resources\Textures\bldgFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Textures\core.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Textures\door.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\fuse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\key.png">
@@ -118,6 +127,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\rock1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\switch.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\wallBrick.png">

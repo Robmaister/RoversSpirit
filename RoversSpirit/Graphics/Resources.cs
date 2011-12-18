@@ -63,7 +63,10 @@ namespace RoversSpirit.Graphics
 		public static void StopAllAudio()
 		{
 			foreach (KeyValuePair<string, AudioBuffer> pair in Audio)
+			{
 				pair.Value.Stop();
+				pair.Value.Looping = false;
+			}
 		}
 
 		public static void UnloadTextures()

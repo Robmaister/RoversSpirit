@@ -55,7 +55,7 @@ namespace RoversSpirit
 			player = new Player();
 			
 			Resources.Audio["wind.wav"].Looping = true;
-			Resources.Audio["wind.wav"].Play();
+			Resources.Audio["shipStaticLoop.wav"].Looping = true;
 			Resources.Audio["start.wav"].Play();
 		}
 
@@ -325,6 +325,15 @@ namespace RoversSpirit
 			{
 				case "prison door key":
 					data.PrisonKeyFound = true;
+					break;
+				case "switch":
+					data.SwitchFound = true;
+					break;
+				case "fuse":
+					data.FuseFound = true;
+					break;
+				case "core":
+					data.CoreFound = true;
 					break;
 			}
 		}

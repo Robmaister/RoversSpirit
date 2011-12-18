@@ -9,7 +9,7 @@ using RoversSpirit.Entities;
 
 namespace RoversSpirit
 {
-	public class AreaCave : Area
+	public class AreaShip : Area
 	{
 		public override Vector2 SetPlayerStartLocation(Type previousArea)
 		{
@@ -22,6 +22,9 @@ namespace RoversSpirit
 			EntList.Add(new BldgWall(new Vector2(0, 136), new Vector2(256, 16), 0));
 
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, -256), new Vector2(256, 256), new AreaMars()));
+
+			Resources.StopAllAudio();
+			Resources.Audio["shipStaticLoop.wav"].Play();
 		}
 
 		public override void Unload()

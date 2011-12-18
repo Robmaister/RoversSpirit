@@ -9,6 +9,14 @@ namespace RoversSpirit
 	public class GameData
 	{
 		public bool PrisonKeyFound;
+		public bool FuseFound;
+		public bool SwitchFound;
+		public bool CoreFound;
+
 		public bool PrisonDoorOpened;
+
+		public bool FuseUsed;
+		public bool SwitchUsed;
+		public bool CoreUsed;
 	}
 }
