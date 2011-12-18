@@ -52,6 +52,7 @@
     <Compile Include="Entities\BldgWall.cs" />
     <Compile Include="Entities\Door.cs" />
     <Compile Include="Entities\DoorKey.cs" />
+    <Compile Include="Graphics\ColorBox.cs" />
     <Compile Include="IState.cs" />
     <Compile Include="Entities\Pebble.cs" />
     <Compile Include="Entities\Rock.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Physics\PhysicsManager.cs" />
     <Compile Include="Physics\AABB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TriggerDoorOpen.cs" />
     <Compile Include="TriggerPickup.cs" />
     <Compile Include="WorldState.cs" />
   </ItemGroup>
@@ -88,6 +90,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\bldgFloor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\door.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\key.png">

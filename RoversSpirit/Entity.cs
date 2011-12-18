@@ -10,13 +10,13 @@ namespace RoversSpirit
 {
 	public class Entity
 	{
-		private BufferSet buffers;
+		public BufferSet buffers { get; private set; }
 
 		protected float angle;
 		protected Vector2 position, size;
 		protected Matrix4 model;
 
-		protected Texture tex;
+		public Texture tex;
 
 		protected bool solid;
 
@@ -131,6 +131,7 @@ namespace RoversSpirit
 
 			GL.BindTexture(TextureTarget.Texture2D, tex);
 			buffers.Draw();
+			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
 
 		public virtual void Update(double time)

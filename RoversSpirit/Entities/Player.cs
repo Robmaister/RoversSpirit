@@ -67,5 +67,30 @@ namespace RoversSpirit.Entities
 				aBuf.Stop();
 			}
 		}
+
+		public void DrawInventory()
+		{
+			GL.Translate(16, 16, 0);
+
+			foreach (Entity ent in Inventory)
+			{
+				GL.Translate(32, 0, 0);
+				GL.BindTexture(TextureTarget.Texture2D, ent.tex);
+				ent.buffers.Draw();
+			}
+
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+		}
+
+		public Entity FindNameInInventory(string item)
+		{
+			foreach (Entity ent in Inventory)
+			{
+				if (ent.Name == item)
+					return ent;
+			}
+
+			return null;
+		}
 	}
 }

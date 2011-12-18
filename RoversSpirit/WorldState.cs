@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Media;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -23,10 +22,11 @@ namespace RoversSpirit
 		private Player player;
 		private List<Entity> entList;
 		private List<TriggerPickup> pickupTriggers;
+		private List<TriggerDoorOpen> doorOpenTriggers;
 		private string message;
 		private Random random;
 
-		private SoundPlayer wind;
+		private ColorBox box;
 
 		public WorldState()
 		{
@@ -48,6 +48,7 @@ namespace RoversSpirit
 
 			entList = new List<Entity>();
 			pickupTriggers = new List<TriggerPickup>();
+			doorOpenTriggers = new List<TriggerDoorOpen>();
 
 			font = new QFont("comic.ttf", 24);
 
@@ -107,8 +108,31 @@ namespace RoversSpirit
 			c.Update(e.Time);
 			player.Update(e.Time);
 
-			List<TriggerPickup> pickedUpList = new List<TriggerPickup>();
+			message = string.Empty;
 
+			List<TriggerDoorOpen> openedList = new List<TriggerDoorOpen>();
+			foreach (TriggerDoorOpen trigger in doorOpenTriggers)
+			{
+				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
+				{
+					Entity ent = player.FindNameInInventory(trigger.LockCode);
+					if (ent != null)
+					{
+						if (Keyboard[Key.Z])
+						{
+							player.Inventory.Remove(ent);
+							entList.Remove(trigger.Door);
+							ent.Unload();
+							trigger.Door.Unload();
+						}
+						else
+							message = "Press Z to open the " + trigger.Door.Name;
+					}
+				}
+			}
+
+
+			List<TriggerPickup> pickedUpList = new List<TriggerPickup>();
 			foreach (TriggerPickup trigger in pickupTriggers)
 			{
 				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
@@ -118,18 +142,14 @@ namespace RoversSpirit
 						player.Inventory.Add(trigger.Ent);
 						entList.Remove(trigger.Ent);
 						pickedUpList.Add(trigger);
-						message = "Picked up the " + trigger.Ent.Name;
 					}
-
 					else
-					{
 						message = "Press Z to pick up the " + trigger.Ent.Name;
-					}
 				}
 			}
-
 			foreach (TriggerPickup trigger in pickedUpList)
 				pickupTriggers.Remove(trigger);
+
 
 			foreach (Entity ent in entList)
 			{
@@ -158,10 +178,19 @@ namespace RoversSpirit
 			player.Draw();
 			GL.PopMatrix();
 
+			c.UseUIProjection();
+
+			GL.PushMatrix();
+			box.Draw();
+			GL.PopMatrix();
+
+			GL.PushMatrix();
+			player.DrawInventory();
+			GL.PopMatrix();
+
 			GL.DisableClientState(ArrayCap.VertexArray);
 			GL.DisableClientState(ArrayCap.TextureCoordArray);
 
-			c.UseUIProjection();
 			GL.PushMatrix();
 			GL.Translate(new Vector3(5, 50, 0));
 			font.Print(message);
@@ -175,6 +204,10 @@ namespace RoversSpirit
 			GL.Viewport(0, 0, ClientSize.Width, ClientSize.Height);
 
 			c.OnResize(ClientSize);
+
+			if (box != null)
+				box.Unload();
+			box = new ColorBox(new Vector2(0, 0), new Vector2(ClientSize.Width, 32), new Color4(96, 96, 96, 128));
 		}
 
 		public void OnKeyDown(object sender, KeyboardKeyEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
@@ -282,9 +315,18 @@ namespace RoversSpirit
 			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + cellSize - wallHalfWidth, internalWallHeight + (cellSize / 2) + wallHalfWidth), new Vector2(cellSize, wallWidth), 3 * MathHelper.PiOver2));
 			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + 2 * cellSize - wallHalfWidth, internalWallHeight + (cellSize / 2) + wallHalfWidth), new Vector2(cellSize, wallWidth), 3 * MathHelper.PiOver2));
 
-			DoorKey prisonKey = new DoorKey(position + new Vector2(halfWidth, -halfHeight) - new Vector2(16, -16), "prison door key");
+			//key
+			DoorKey prisonKey = new DoorKey(position + new Vector2(halfWidth, -halfHeight) - new Vector2(32, -32), "prison door key");
 			pickupTriggers.Add(new TriggerPickup(prisonKey.Position, new Vector2(64, 64), prisonKey));
 			entList.Add(prisonKey);
+
+			//doors
+			Door prisonDoor = new Door(new Vector2(position.X - halfWidth + (cellDoorSize / 2), internalWallHeight), 0, "prison door");
+			entList.Add(prisonDoor);
+			entList.Add(new Door(new Vector2(position.X - halfWidth + cellSize + (cellDoorSize / 2), internalWallHeight), 0));
+			entList.Add(new Door(new Vector2(position.X - halfWidth + cellSize * 2 + (cellDoorSize / 2), internalWallHeight), 0));
+
+			doorOpenTriggers.Add(new TriggerDoorOpen(prisonDoor.Position, new Vector2(96, 96), prisonDoor, "prison door key"));
 		}
 	}
 }
