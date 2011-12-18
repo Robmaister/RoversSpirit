@@ -25,12 +25,24 @@ namespace RoversSpirit
 			get
 			{
 				Vector2 halfSize = size * .5f;
-				return new AABB(position.X - halfSize.X, position.X + halfSize.X, position.Y + halfSize.Y, position.Y - halfSize.Y);
+				if (angle == MathHelper.PiOver2 || angle == 3 * MathHelper.PiOver2)
+					return new AABB(position.X - halfSize.Y, position.X + halfSize.Y, position.Y + halfSize.X, position.Y - halfSize.X);
+				else
+					return new AABB(position.X - halfSize.X, position.X + halfSize.X, position.Y + halfSize.Y, position.Y - halfSize.Y);
 			}
 		}
 
 		public Vector2 Position { get { return position; } }
-		public Vector2 Size { get { return size; } }
+		public Vector2 Size
+		{
+			get
+			{
+				if (angle == MathHelper.PiOver2 || angle == 3 * MathHelper.PiOver2)
+					return new Vector2(size.Y, size.X);
+				else
+					return size;
+			}
+		}
 
 		public bool Solid { get { return solid; } }
 
@@ -46,10 +58,12 @@ namespace RoversSpirit
 				if (angle > MathHelper.PiOver4 && angle <= 3 * MathHelper.PiOver4) angle = MathHelper.PiOver2;
 				if (angle > 3 * MathHelper.PiOver4 && angle <= 5 * MathHelper.PiOver4) angle = MathHelper.Pi;
 				if (angle > 5 * MathHelper.PiOver4 && angle <= 7 * MathHelper.PiOver4) angle = 3 * MathHelper.PiOver2;
+
+				RebuildModelMatrix();
 			}
 		}
 
-		public Entity(Vector2 position, Vector2 size, Texture tex, bool solid)
+		public Entity(Vector2 position, Vector2 size, Texture tex, Vector2 texScale, bool solid)
 		{
 			float x = size.X / 2.0f;
 			float y = size.Y / 2.0f;
@@ -74,6 +88,15 @@ namespace RoversSpirit
 			{
 				0, 1, 2, 3
 			};
+
+			if (texScale != Vector2.One)
+			{
+				for (int i = 0; i < texcoords.Length; i += 2)
+				{
+					texcoords[i] *= texScale.X;
+					texcoords[i + 1] *= texScale.Y;
+				}
+			}
 
 			VBO verts = new VBO(), texC = new VBO(), ind = new VBO();
 			verts.SetData(ref vertices, BufferUsageHint.StaticDraw);

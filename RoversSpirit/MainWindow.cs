@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 
 using OpenTK;
+using OpenTK.Audio;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -12,6 +13,7 @@ using QuickFont;
 using RoversSpirit.Entities;
 using RoversSpirit.Graphics;
 using RoversSpirit.Physics;
+using System.Threading;
 
 namespace RoversSpirit
 {
@@ -24,6 +26,8 @@ namespace RoversSpirit
 		public static IState state;
 
 		private static IState curState;
+
+		public static AudioContext context = new AudioContext();
 
 		public static void Main(string[] args)
 		{
@@ -41,6 +45,8 @@ namespace RoversSpirit
 			curState = new MenuState();
 			state = curState;
 
+			this.VSync = VSyncMode.On;
+
 			Keyboard.KeyDown += OnKeyDown;
 			Keyboard.KeyUp += OnKeyUp;
 			Mouse.ButtonDown += OnMouseDown;
@@ -57,6 +63,8 @@ namespace RoversSpirit
 		protected override void OnUpdateFrame(FrameEventArgs e)
 		{
 			base.OnUpdateFrame(e);
+
+			Resources.UpdateAudioBuffers(e.Time);
 
 			curState.OnUpdateFrame(e, Keyboard, Mouse);
 
@@ -114,6 +122,9 @@ namespace RoversSpirit
 			base.OnUnload(e);
 
 			curState.OnUnload(e);
+
+			Resources.UnloadTextures();
+			Resources.UnloadAudioBuffers();
 		}
 	}
 }

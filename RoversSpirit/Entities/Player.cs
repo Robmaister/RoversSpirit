@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Media;
 
 using OpenTK;
+using OpenTK.Audio.OpenAL;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 using RoversSpirit.Graphics;
+using RoversSpirit.Audio;
 
 namespace RoversSpirit.Entities
 {
 	public class Player : Entity
 	{
+		public const float MoveSpeed = 176;
+
 		private Texture texAltFrame;
 
 		private double animTime = 0.0;
 
+		private AudioBuffer aBuf;
+
 		public bool Moving { get; set; }
-
-		private SoundPlayer moveSound;
-
-		private bool soundPlaying;
 
 		public Player()
 			: this(new Vector2(0, 0))
@@ -27,14 +28,12 @@ namespace RoversSpirit.Entities
 		}
 
 		public Player(Vector2 position)
-			: base(position, new Vector2(64, 64), Resources.Textures["playerf1.png"], true)
+			: base(position, new Vector2(64, 64), Resources.Textures["playerf1.png"], Vector2.One, true)
 		{
 			texAltFrame = Resources.Textures["playerf2.png"];
+			aBuf = Resources.Audio["move.wav"];
+			aBuf.Looping = true;
 
-			moveSound = new SoundPlayer("Resources/Audio/move.wav");
-			moveSound.Load();
-
-			soundPlaying = false;
 		}
 
 		public override void Update(double time)
@@ -43,12 +42,8 @@ namespace RoversSpirit.Entities
 
 			if (Moving)
 			{
-				if (!soundPlaying)
-				{
-					moveSound.PlayLooping();
-					soundPlaying = true;
-				}
-
+				if (aBuf.State != ALSourceState.Playing)
+					aBuf.Play();
 				animTime += time;
 
 				//on animation time, swap frames
@@ -63,11 +58,7 @@ namespace RoversSpirit.Entities
 
 			else
 			{
-				if (soundPlaying)
-				{
-					moveSound.Stop();
-					soundPlaying = false;
-				}
+				aBuf.Stop();
 			}
 		}
 	}

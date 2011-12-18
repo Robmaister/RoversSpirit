@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Media;
 
 using OpenTK;
 using OpenTK.Graphics;
@@ -23,6 +24,8 @@ namespace RoversSpirit
 		private List<Entity> entList;
 		private bool collisionDetected;
 		private Random random;
+
+		private SoundPlayer wind;
 
 		public WorldState()
 		{
@@ -61,6 +64,11 @@ namespace RoversSpirit
 
 			player = new Player();
 			entList.Add(new Rock(new Vector2(-100, 50), Resources.Textures["rock1.png"]));
+			entList.Add(new BldgFloor(new Vector2(256, 256), new Vector2(256, 256)));
+			entList.Add(new BldgWall(new Vector2(128, 256), new Vector2(256, 32), MathHelper.PiOver2));
+
+			Resources.Audio["wind.wav"].Looping = true;
+			Resources.Audio["wind.wav"].Play();
 		}
 
 		public void OnUpdateFrame(FrameEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
@@ -69,25 +77,25 @@ namespace RoversSpirit
 
 			if (Keyboard[Key.Up])
 			{
-				player.MoveBy(new Vector2(0, 2.9f));
+				player.MoveBy(new Vector2(0, (float)(e.Time * Player.MoveSpeed)));
 				player.Moving = true;
 			}
 
 			if (Keyboard[Key.Down])
 			{
-				player.MoveBy(new Vector2(0, -2.9f));
+				player.MoveBy(new Vector2(0, -(float)(e.Time * Player.MoveSpeed)));
 				player.Moving = true;
 			}
 
 			if (Keyboard[Key.Left])
 			{
-				player.MoveBy(new Vector2(-2.9f, 0));
+				player.MoveBy(new Vector2(-(float)(e.Time * Player.MoveSpeed), 0));
 				player.Moving = true;
 			}
 
 			if (Keyboard[Key.Right])
 			{
-				player.MoveBy(new Vector2(2.9f, 0));
+				player.MoveBy(new Vector2((float)(e.Time * Player.MoveSpeed), 0));
 				player.Moving = true;
 			}
 
@@ -205,7 +213,9 @@ namespace RoversSpirit
 
 		public void OnUnload(EventArgs e)
 		{
-			
+			player.Unload();
+			foreach (Entity ent in entList)
+				ent.Unload();
 		}
 	}
 }

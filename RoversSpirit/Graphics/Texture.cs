@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace RoversSpirit.Graphics
@@ -33,6 +34,14 @@ namespace RoversSpirit.Graphics
 		/// Gets the size of this texture, in pixels.
 		/// </summary>
 		public Size Size { get; private set; }
+
+		public Vector2 SizeVec
+		{
+			get
+			{
+				return new Vector2(Size.Width, Size.Height);
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the filter applied when the rendered texture is smaller than original size.
