@@ -25,7 +25,16 @@ namespace RoversSpirit
 		public static bool exit = false;
 		public static IState state;
 
+		/// <summary>
+		/// set to true to start reading, will display whatever readingText is.
+		/// </summary>
+		public static bool reading = false;
+		public static string readingText = string.Empty;
+
 		private static IState curState;
+
+		public ColorBox paper;
+		public QFont ink;
 
 		public static AudioContext context = new AudioContext();
 
@@ -68,7 +77,8 @@ namespace RoversSpirit
 
 			Resources.UpdateAudioBuffers(e.Time);
 
-			curState.OnUpdateFrame(e, Keyboard, Mouse);
+			if (!reading)
+				curState.OnUpdateFrame(e, Keyboard, Mouse);
 
 			//exit the game
 			if (exit)
@@ -89,6 +99,23 @@ namespace RoversSpirit
 			base.OnRenderFrame(e);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			curState.OnRenderFrame(e);
+
+			//TODO render reading stuff here
+			if (reading)
+			{
+				GL.PushMatrix();
+				GL.EnableClientState(ArrayCap.VertexArray);
+				paper.Draw();
+				GL.DisableClientState(ArrayCap.VertexArray);
+				GL.PopMatrix();
+				GL.PushMatrix();
+				RectangleF test = paper.GetBoundsWithBorder(16);
+				ink.Print(readingText, paper.GetBoundsWithBorder(16), QFontAlignment.Left);
+				GL.BindTexture(TextureTarget.Texture2D, 0);
+				GL.Color4(1.0f, 1.0f, 1.0f, 1.0f);
+				GL.PopMatrix();
+			}
+
 			SwapBuffers();
 		}
 
@@ -97,26 +124,42 @@ namespace RoversSpirit
 			base.OnResize(e);
 
 			curState.OnResize(e, ClientSize);
+
+			if(paper != null)
+				paper.Unload();
+
+			float paperHeight = ClientSize.Height - 64;
+			float paperWidth = 8.5f * paperHeight / 11.0f;
+
+			paper = new ColorBox(new Vector2(ClientSize.Width / 2 - paperWidth / 2, ClientSize.Height / 2 - paperHeight / 2), new Vector2(paperWidth, paperHeight), Color4.White);
+			ink = new QFont("Resources/Fonts/Graziano.ttf", ClientSize.Height / 16);
+			ink.Options.Colour = Color.Black;
 		}
 
 		private void OnKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-			curState.OnKeyDown(sender, e, Keyboard, Mouse);
+			if (!reading)
+				curState.OnKeyDown(sender, e, Keyboard, Mouse);
+			else
+				reading = false;
 		}
 
 		private void OnKeyUp(object sender, KeyboardKeyEventArgs e)
 		{
-			curState.OnKeyUp(sender, e, Keyboard, Mouse);
+			if (!reading)
+				curState.OnKeyUp(sender, e, Keyboard, Mouse);
 		}
 
 		private void OnMouseDown(object sender, MouseEventArgs e)
 		{
-			curState.OnMouseDown(sender, e, Keyboard, Mouse);
+			if (!reading)
+				curState.OnMouseDown(sender, e, Keyboard, Mouse);
 		}
 
 		private void OnMouseUp(object sender, MouseEventArgs e)
 		{
-			curState.OnMouseUp(sender, e, Keyboard, Mouse);
+			if (!reading)
+				curState.OnMouseUp(sender, e, Keyboard, Mouse);
 		}
 
 		protected override void OnUnload(EventArgs e)

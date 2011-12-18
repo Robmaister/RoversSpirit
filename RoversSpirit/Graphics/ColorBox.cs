@@ -3,6 +3,7 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 
 namespace RoversSpirit.Graphics
 {
@@ -10,9 +11,9 @@ namespace RoversSpirit.Graphics
 	{
 		private BufferSet bufSet;
 		private Matrix4 model;
+		private Vector2 position, size;
 
 		public Color4 Color { get; set; }
-
 
 		/// <summary>
 		/// position is top left of box.
@@ -22,6 +23,8 @@ namespace RoversSpirit.Graphics
 		/// <param name="color"></param>
 		public ColorBox(Vector2 position, Vector2 size, Color4 color)
 		{
+			this.position = position;
+			this.size = size;
 			model = Matrix4.CreateTranslation(position.X, position.Y, 0);
 			Color = color;
 
@@ -61,6 +64,11 @@ namespace RoversSpirit.Graphics
 		public void Unload()
 		{
 			bufSet.Unload();
+		}
+
+		public RectangleF GetBoundsWithBorder(float borderSize)
+		{
+			return new RectangleF(position.X + borderSize, position.Y + borderSize, size.X - borderSize * 2, size.Y - borderSize * 2);
 		}
 	}
 }

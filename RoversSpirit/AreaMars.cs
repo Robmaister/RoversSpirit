@@ -19,7 +19,7 @@ namespace RoversSpirit
 		public override void LoadContent(GameData data)
 		{
 			Random random = new Random();
-			for (int i = 0; i < 80; i++)
+			for (int i = 0; i < 150; i++)
 			{
 				EntList.Add(new Pebble(new Vector2((float)(random.NextDouble() * 3000) - 1500, (float)(random.NextDouble() * 3000) - 1500), (random.Next(0, 2) == 1) ? Resources.Textures["pebble1.png"] : Resources.Textures["pebble2.png"]));
 			}
@@ -32,6 +32,8 @@ namespace RoversSpirit
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, -200), new Vector2(500, 50), new AreaShip()));
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, 1250), new Vector2(1000, 100), new AreaCave()));
 
+			ReadingTriggers.Add(new TriggerReading(new Vector2(0, 256), new Vector2(128, 128), Notes.PrisonNote));
+
 			Resources.StopAllAudio();
 			Resources.Audio["wind.wav"].Play();
 		}
@@ -40,6 +42,8 @@ namespace RoversSpirit
 		{
 			if (previousArea == typeof(AreaUpstairs))
 				return new Vector2(-864, 416);
+			else if (previousArea == typeof(AreaCave))
+				return new Vector2(0, 1000);
 			return new Vector2(0, 0);
 		}
 

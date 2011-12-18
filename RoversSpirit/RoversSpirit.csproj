@@ -79,6 +79,7 @@
     <Compile Include="Graphics\VBO.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="MenuState.cs" />
+    <Compile Include="Notes.cs" />
     <Compile Include="Physics\PhysicsManager.cs" />
     <Compile Include="Physics\AABB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="TriggerChangeArea.cs" />
     <Compile Include="TriggerDoorOpen.cs" />
     <Compile Include="TriggerPickup.cs" />
+    <Compile Include="TriggerReading.cs" />
     <Compile Include="WorldState.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -159,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Fonts\Cousine-Regular-Latin.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Fonts\Graziano.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

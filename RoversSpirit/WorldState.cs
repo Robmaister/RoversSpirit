@@ -141,6 +141,20 @@ namespace RoversSpirit
 				}
 			}
 
+			foreach (TriggerReading trigger in area.ReadingTriggers)
+			{
+				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
+				{
+					if (Keyboard[Key.Z])
+					{
+						trigger.Activate();
+					}
+					else
+					{
+						message = "Press Z to read the note";
+					}
+				}
+			}
 
 			List<TriggerDoorOpen> openedList = new List<TriggerDoorOpen>();
 			foreach (TriggerDoorOpen trigger in area.DoorOpenTriggers)
