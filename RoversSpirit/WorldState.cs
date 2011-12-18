@@ -17,6 +17,8 @@ namespace RoversSpirit
 {
 	public class WorldState : IState
 	{
+		const float fadeTime = 0.8f;
+
 		private QFont font;
 		private Camera c;
 		private Player player;
@@ -26,7 +28,9 @@ namespace RoversSpirit
 		private string message;
 		private Random random;
 
-		private ColorBox box;
+		private ColorBox fadeBox;
+		private ColorBox InventoryBox;
+		private bool fadingOut;
 
 		public WorldState()
 		{
@@ -52,33 +56,29 @@ namespace RoversSpirit
 
 			font = new QFont("comic.ttf", 24);
 
-			Resources.Textures["pebble1.png"].MagFilter = TextureMagFilter.Nearest;
-			Resources.Textures["pebble1.png"].MinFilter = TextureMinFilter.Nearest;
-			Resources.Textures["pebble2.png"].MagFilter = TextureMagFilter.Nearest;
-			Resources.Textures["pebble2.png"].MinFilter = TextureMinFilter.Nearest;
-			Resources.Textures["playerf1.png"].MagFilter = TextureMagFilter.Nearest;
-			Resources.Textures["playerf1.png"].MinFilter = TextureMinFilter.Nearest;
-			Resources.Textures["playerf2.png"].MagFilter = TextureMagFilter.Nearest;
-			Resources.Textures["playerf2.png"].MinFilter = TextureMinFilter.Nearest;
-
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 40; i++)
 			{
 				entList.Add(new Pebble(new Vector2((float)(random.NextDouble() * 1000) - 500, (float)(random.NextDouble() * 1000) - 500), (random.Next(0, 2) == 1) ? Resources.Textures["pebble1.png"] : Resources.Textures["pebble2.png"]));
 			}
 
 			player = new Player();
 			entList.Add(new Rock(new Vector2(-100, 50), Resources.Textures["rock1.png"]));
-			//entList.Add(new BldgFloor(new Vector2(256, 256), new Vector2(256, 256)));
-			//entList.Add(new BldgWall(new Vector2(112, 256), new Vector2(256, 32), MathHelper.PiOver2));
 
 			GeneratePrison(new Vector2(512, 512));
 
 			Resources.Audio["wind.wav"].Looping = true;
 			Resources.Audio["wind.wav"].Play();
+
+			Resources.Audio["start.wav"].Play();
 		}
 
 		public void OnUpdateFrame(FrameEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
 		{
+			if (!fadingOut && fadeBox.Color.A > 0)
+			{
+				fadeBox.Color = new Color4(0, 0, 0, fadeBox.Color.A - (float)e.Time * fadeTime);
+			}
+
 			player.Moving = false;
 
 			if (Keyboard[Key.Up])
@@ -181,7 +181,7 @@ namespace RoversSpirit
 			c.UseUIProjection();
 
 			GL.PushMatrix();
-			box.Draw();
+			InventoryBox.Draw();
 			GL.PopMatrix();
 
 			GL.PushMatrix();
@@ -197,6 +197,15 @@ namespace RoversSpirit
 			GL.PopMatrix();
 
 			GL.BindTexture(TextureTarget.Texture2D, 0);
+
+			if (fadeBox.Color.A > 0)
+			{
+				GL.EnableClientState(ArrayCap.VertexArray);
+				GL.PushMatrix();
+				fadeBox.Draw();
+				GL.PopMatrix();
+				GL.DisableClientState(ArrayCap.VertexArray);
+			}
 		}
 
 		public void OnResize(EventArgs e, Size ClientSize)
@@ -205,9 +214,13 @@ namespace RoversSpirit
 
 			c.OnResize(ClientSize);
 
-			if (box != null)
-				box.Unload();
-			box = new ColorBox(new Vector2(0, 0), new Vector2(ClientSize.Width, 32), new Color4(96, 96, 96, 128));
+			if (InventoryBox != null)
+				InventoryBox.Unload();
+			InventoryBox = new ColorBox(new Vector2(0, 0), new Vector2(ClientSize.Width, 32), new Color4(96, 96, 96, 128));
+
+			if (fadeBox != null)
+				fadeBox.Unload();
+			fadeBox = new ColorBox(new Vector2(0, 0), new Vector2(ClientSize.Width, ClientSize.Height), new Color4(0, 0, 0, 255));
 		}
 
 		public void OnKeyDown(object sender, KeyboardKeyEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)

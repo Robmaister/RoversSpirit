@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioBuffer.cs" />
+    <Compile Include="AreaTransition.cs" />
     <Compile Include="Entities\BldgFloor.cs" />
     <Compile Include="Entities\BldgWall.cs" />
     <Compile Include="Entities\Door.cs" />
@@ -63,7 +64,6 @@
     <Compile Include="Graphics\Resources.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\VBO.cs" />
-    <Compile Include="Item.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="MenuState.cs" />
     <Compile Include="Physics\PhysicsManager.cs" />
@@ -87,6 +87,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Audio\wind.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\bldgFloor.png">

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+
 using RoversSpirit.Audio;
 
 namespace RoversSpirit.Graphics
@@ -38,6 +41,15 @@ namespace RoversSpirit.Graphics
 					Audio.Add(f.Name, new AudioBuffer(f.FullName));
 				}
 			}
+
+			Resources.Textures["pebble1.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["pebble1.png"].MinFilter = TextureMinFilter.Nearest;
+			Resources.Textures["pebble2.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["pebble2.png"].MinFilter = TextureMinFilter.Nearest;
+			Resources.Textures["playerf1.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["playerf1.png"].MinFilter = TextureMinFilter.Nearest;
+			Resources.Textures["playerf2.png"].MagFilter = TextureMagFilter.Nearest;
+			Resources.Textures["playerf2.png"].MinFilter = TextureMinFilter.Nearest;
 		}
 
 		public static void UpdateAudioBuffers(double time)

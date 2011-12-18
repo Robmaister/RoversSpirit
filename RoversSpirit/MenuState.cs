@@ -2,6 +2,7 @@
 using System.Drawing;
 
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
@@ -16,12 +17,16 @@ namespace RoversSpirit
 		private QFont titleFont;
 		private QFont itemFont;
 
+		private bool fadeOut;
+
+		private Size ClientSize;
+
 		public void OnLoad(EventArgs e)
 		{
-			titleFont = new QFont("times.ttf", 48);
+			titleFont = new QFont("times.ttf", 72);
 			itemFont = new QFont("times.ttf", 36);
 
-			titleFont.Options.Colour = Color.CornflowerBlue;
+			titleFont.Options.Colour = new Color4(183, 148, 106, 0);
 
 			GL.ClearColor(Color.Black);
 			GL.Enable(EnableCap.Blend);
@@ -31,17 +36,33 @@ namespace RoversSpirit
 
 		public void OnUpdateFrame(FrameEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
 		{
-			
+			const float timeToFade = 0.8f;
+
+			if (!fadeOut)
+			{
+				if (titleFont.Options.Colour.A < 1.0f)
+					titleFont.Options.Colour = new Color4(titleFont.Options.Colour.R, titleFont.Options.Colour.G, titleFont.Options.Colour.B, titleFont.Options.Colour.A + (float)e.Time * timeToFade);
+			}
+			else
+			{
+				if (titleFont.Options.Colour.A <= 0.0f)
+					MainWindow.state = new WorldState();
+				else
+					titleFont.Options.Colour = new Color4(titleFont.Options.Colour.R, titleFont.Options.Colour.G, titleFont.Options.Colour.B, titleFont.Options.Colour.A - (float)e.Time * timeToFade);
+			}
+
+			itemFont.Options.Colour.A = titleFont.Options.Colour.A;
 		}
 
 		public void OnRenderFrame(FrameEventArgs e)
 		{
 			GL.PushMatrix();
+			GL.Translate(0, -40, 0);
 			titleFont.Print("Rover's Spirit", QFontAlignment.Centre);
 			GL.PopMatrix();
 
 			GL.PushMatrix();
-			GL.Translate(0, 200, 0);
+			GL.Translate(0, (ClientSize.Height / 2) - 48, 0);
 			itemFont.Print("Press any key to start...", QFontAlignment.Centre);
 			GL.PopMatrix();
 		}
@@ -56,11 +77,13 @@ namespace RoversSpirit
 			GL.LoadMatrix(ref proj);
 			GL.MatrixMode(MatrixMode.Modelview);
 			GL.LoadIdentity();
+
+			this.ClientSize = ClientSize;
 		}
 
 		public void OnKeyDown(object sender, KeyboardKeyEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
 		{
-			MainWindow.state = new WorldState();
+			fadeOut = true;
 		}
 
 		public void OnKeyUp(object sender, KeyboardKeyEventArgs e, KeyboardDevice Keyboard, MouseDevice Mouse)
