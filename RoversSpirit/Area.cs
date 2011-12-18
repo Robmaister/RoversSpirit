@@ -16,6 +16,7 @@ namespace RoversSpirit
 		public List<TriggerPickup> PickupTriggers { get; protected set; }
 		public List<TriggerDoorOpen> DoorOpenTriggers { get; protected set; }
 		public List<TriggerChangeArea> AreaChangeTriggers { get; protected set; }
+		public List<TriggerButtonPress> ButtonPressTriggers { get; protected set; }
 
 		public Area()
 		{
@@ -23,6 +24,7 @@ namespace RoversSpirit
 			PickupTriggers = new List<TriggerPickup>();
 			DoorOpenTriggers = new List<TriggerDoorOpen>();
 			AreaChangeTriggers = new List<TriggerChangeArea>();
+			ButtonPressTriggers = new List<TriggerButtonPress>();
 		}
 
 		public abstract Vector2 SetPlayerStartLocation(Type previousArea);

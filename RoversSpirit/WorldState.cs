@@ -125,6 +125,22 @@ namespace RoversSpirit
 				}
 			}
 
+			foreach (TriggerButtonPress trigger in area.ButtonPressTriggers)
+			{
+				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
+				{
+					trigger.Button.Activated = true;
+				}
+
+				else
+				{
+					if (trigger.Button.Activated)
+					{
+						trigger.Activate();
+					}
+				}
+			}
+
 
 			List<TriggerDoorOpen> openedList = new List<TriggerDoorOpen>();
 			foreach (TriggerDoorOpen trigger in area.DoorOpenTriggers)

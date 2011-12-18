@@ -70,7 +70,8 @@ namespace RoversSpirit.Entities
 
 		public void DrawInventory()
 		{
-			GL.Translate(16, 16, 0);
+			GL.Scale(1, -1, 1);
+			GL.Translate(16, -16, 0);
 
 			foreach (Entity ent in Inventory)
 			{

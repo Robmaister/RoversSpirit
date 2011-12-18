@@ -44,7 +44,7 @@ namespace RoversSpirit
 			}
 		}
 
-		public bool Solid { get { return solid; } }
+		public bool Solid { get { return solid; } set { solid = value; } }
 
 		public bool AllowPickup { get; protected set; }
 
@@ -66,6 +66,8 @@ namespace RoversSpirit
 		}
 
 		public string Name { get; protected set; }
+
+		public bool Visible { get; set; }
 
 		public Entity(Vector2 position, Vector2 size, Texture tex, Vector2 texScale, bool solid)
 		{
@@ -123,17 +125,21 @@ namespace RoversSpirit
 			this.solid = solid;
 
 			Name = string.Empty;
+			Visible = true;
 
 			RebuildModelMatrix();
 		}
 
 		public void Draw()
 		{
-			GL.MultMatrix(ref model);
+			if (Visible)
+			{
+				GL.MultMatrix(ref model);
 
-			GL.BindTexture(TextureTarget.Texture2D, tex);
-			buffers.Draw();
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+				GL.BindTexture(TextureTarget.Texture2D, tex);
+				buffers.Draw();
+				GL.BindTexture(TextureTarget.Texture2D, 0);
+			}
 		}
 
 		public virtual void Update(double time)

@@ -30,6 +30,7 @@ namespace RoversSpirit
 			GenerateHouse1(new Vector2(-768, 256), data);
 
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, -200), new Vector2(500, 50), new AreaShip()));
+			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, 1250), new Vector2(1000, 100), new AreaCave()));
 
 			Resources.StopAllAudio();
 			Resources.Audio["wind.wav"].Play();
@@ -37,6 +38,8 @@ namespace RoversSpirit
 
 		public override Vector2 SetPlayerStartLocation(Type previousArea)
 		{
+			if (previousArea == typeof(AreaUpstairs))
+				return new Vector2(-864, 416);
 			return new Vector2(0, 0);
 		}
 
@@ -156,7 +159,8 @@ namespace RoversSpirit
 			//stairs
 			Stairs s = new Stairs(position - new Vector2(halfWidth - stairsHalfWidth, -halfHeight + stairsHalfHeight));
 			EntList.Add(s);
-			AreaChangeTriggers.Add(new TriggerChangeArea(s.Position, s.Size, new AreaUpstairs()));
+			EntList.Add(new Border(s.Position - new Vector2(0, s.Size.Y / 2 + 2), new Vector2(s.Size.X, 4)));
+			AreaChangeTriggers.Add(new TriggerChangeArea(s.Position, s.Size - new Vector2(10, 10), new AreaUpstairs()));
 		}
 	}
 }
