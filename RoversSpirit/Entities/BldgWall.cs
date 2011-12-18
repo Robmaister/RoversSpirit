@@ -12,6 +12,7 @@ namespace RoversSpirit.Entities
 			: base(position, size, Resources.Textures["wallBrick.png"], Vector2.Divide(size, Resources.Textures["wallBrick.png"].SizeVec), true)
 		{
 			this.Angle = angle;
+			AllowPickup = false;
 		}
 	}
 }

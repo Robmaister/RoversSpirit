@@ -22,7 +22,8 @@ namespace RoversSpirit
 		private Camera c;
 		private Player player;
 		private List<Entity> entList;
-		private bool collisionDetected;
+		private List<TriggerPickup> pickupTriggers;
+		private string message;
 		private Random random;
 
 		private SoundPlayer wind;
@@ -33,6 +34,7 @@ namespace RoversSpirit
 			c.UnitScale = 1;
 
 			random = new Random();
+			message = String.Empty;
 		}
 
 		public void OnLoad(EventArgs e)
@@ -45,8 +47,9 @@ namespace RoversSpirit
 			Resources.LoadAll();
 
 			entList = new List<Entity>();
+			pickupTriggers = new List<TriggerPickup>();
 
-			font = new QFont("comic.ttf", 12);
+			font = new QFont("comic.ttf", 24);
 
 			Resources.Textures["pebble1.png"].MagFilter = TextureMagFilter.Nearest;
 			Resources.Textures["pebble1.png"].MinFilter = TextureMinFilter.Nearest;
@@ -64,8 +67,10 @@ namespace RoversSpirit
 
 			player = new Player();
 			entList.Add(new Rock(new Vector2(-100, 50), Resources.Textures["rock1.png"]));
-			entList.Add(new BldgFloor(new Vector2(256, 256), new Vector2(256, 256)));
-			entList.Add(new BldgWall(new Vector2(128, 256), new Vector2(256, 32), MathHelper.PiOver2));
+			//entList.Add(new BldgFloor(new Vector2(256, 256), new Vector2(256, 256)));
+			//entList.Add(new BldgWall(new Vector2(112, 256), new Vector2(256, 32), MathHelper.PiOver2));
+
+			GeneratePrison(new Vector2(512, 512));
 
 			Resources.Audio["wind.wav"].Looping = true;
 			Resources.Audio["wind.wav"].Play();
@@ -102,17 +107,37 @@ namespace RoversSpirit
 			c.Update(e.Time);
 			player.Update(e.Time);
 
-			c.JumpTo(player.Position);
+			List<TriggerPickup> pickedUpList = new List<TriggerPickup>();
 
-			collisionDetected = false;
+			foreach (TriggerPickup trigger in pickupTriggers)
+			{
+				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
+				{
+					if (Keyboard[Key.Z])
+					{
+						player.Inventory.Add(trigger.Ent);
+						entList.Remove(trigger.Ent);
+						pickedUpList.Add(trigger);
+						message = "Picked up the " + trigger.Ent.Name;
+					}
+
+					else
+					{
+						message = "Press Z to pick up the " + trigger.Ent.Name;
+					}
+				}
+			}
+
+			foreach (TriggerPickup trigger in pickedUpList)
+				pickupTriggers.Remove(trigger);
+
 			foreach (Entity ent in entList)
 			{
 				if (PhysicsManager.IsColliding(player, ent) && ent.Solid)
-				{
-					collisionDetected = true;
 					player.MoveBy(PhysicsManager.ReactCollision(player, ent));
-				}
 			}
+
+			c.JumpTo(player.Position);
 		}
 
 		public void OnRenderFrame(FrameEventArgs e)
@@ -138,8 +163,8 @@ namespace RoversSpirit
 
 			c.UseUIProjection();
 			GL.PushMatrix();
-			GL.Translate(new Vector3(100, 100, 0));
-			font.Print(collisionDetected ? "COLLISION DETECTED" : "Hello, fonts!");
+			GL.Translate(new Vector3(5, 50, 0));
+			font.Print(message);
 			GL.PopMatrix();
 
 			GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -216,6 +241,50 @@ namespace RoversSpirit
 			player.Unload();
 			foreach (Entity ent in entList)
 				ent.Unload();
+		}
+
+		public void GeneratePrison(Vector2 position)
+		{
+			const float doorSize = 96;
+			const float doorAscent = 64;
+			const float prisonWidth = 576;
+			const float prisonHeight = 576;
+			const float halfWidth = prisonWidth / 2;
+			const float halfHeight = prisonHeight / 2;
+			const float wallWidth = 16;
+			const float wallHalfWidth = wallWidth / 2;
+
+			const float doorTopHeight = doorSize + doorAscent;
+			const float wallAboveDoorSize = (prisonHeight - (doorAscent + doorSize));
+			const float halfWallAboveDoorSize = wallAboveDoorSize / 2;
+
+			const float cellSize = prisonWidth / 3;
+			const float cellDoorSize = 96;
+			float internalWallHeight = position.Y + halfHeight - cellSize - wallHalfWidth;
+			float internalWallSize = cellSize - cellDoorSize;
+
+			//floor
+			entList.Add(new BldgFloor(position, new Vector2(prisonWidth, prisonHeight)));
+
+			//solid walls
+			entList.Add(new BldgWall(position + new Vector2(0, halfHeight + wallHalfWidth), new Vector2(prisonWidth + 2 * wallWidth, wallWidth), 0));
+			entList.Add(new BldgWall(position - new Vector2(0, halfHeight + wallHalfWidth), new Vector2(prisonWidth + 2 * wallWidth, wallWidth), 0));
+			entList.Add(new BldgWall(position + new Vector2(halfWidth + wallHalfWidth, 0), new Vector2(prisonHeight, wallWidth), 3 * MathHelper.PiOver2));
+
+			//wall w/ entrance
+			entList.Add(new BldgWall(position - new Vector2(halfWidth + wallHalfWidth, halfHeight - (doorAscent / 2)), new Vector2(doorAscent, wallWidth), MathHelper.PiOver2));
+			entList.Add(new BldgWall(position - new Vector2(halfWidth + wallHalfWidth, halfHeight - doorTopHeight - halfWallAboveDoorSize), new Vector2(wallAboveDoorSize, wallWidth), MathHelper.PiOver2));
+
+			//internal walls
+			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + cellDoorSize + (internalWallSize / 2), internalWallHeight), new Vector2(cellSize - cellDoorSize, wallWidth), 0));
+			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + cellSize + cellDoorSize + (internalWallSize / 2), internalWallHeight), new Vector2(cellSize - cellDoorSize, wallWidth), 0));
+			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + 2 * cellSize + cellDoorSize + (internalWallSize / 2), internalWallHeight), new Vector2(cellSize - cellDoorSize, wallWidth), 0));
+			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + cellSize - wallHalfWidth, internalWallHeight + (cellSize / 2) + wallHalfWidth), new Vector2(cellSize, wallWidth), 3 * MathHelper.PiOver2));
+			entList.Add(new BldgWall(new Vector2(position.X - halfWidth + 2 * cellSize - wallHalfWidth, internalWallHeight + (cellSize / 2) + wallHalfWidth), new Vector2(cellSize, wallWidth), 3 * MathHelper.PiOver2));
+
+			DoorKey prisonKey = new DoorKey(position + new Vector2(halfWidth, -halfHeight) - new Vector2(16, -16), "prison door key");
+			pickupTriggers.Add(new TriggerPickup(prisonKey.Position, new Vector2(64, 64), prisonKey));
+			entList.Add(prisonKey);
 		}
 	}
 }

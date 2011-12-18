@@ -12,6 +12,7 @@ namespace RoversSpirit.Entities
 		public BldgFloor(Vector2 position, Vector2 size)
 			: base(position, size, Resources.Textures["bldgFloor.png"], Vector2.Divide(size, Resources.Textures["bldgFloor.png"].SizeVec), false)
 		{
+			AllowPickup = false;
 		}
 	}
 }

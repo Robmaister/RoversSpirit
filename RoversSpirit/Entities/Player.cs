@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using OpenTK;
 using OpenTK.Audio.OpenAL;
@@ -22,6 +23,8 @@ namespace RoversSpirit.Entities
 
 		public bool Moving { get; set; }
 
+		public List<Entity> Inventory { get; set; }
+
 		public Player()
 			: this(new Vector2(0, 0))
 		{
@@ -34,6 +37,9 @@ namespace RoversSpirit.Entities
 			aBuf = Resources.Audio["move.wav"];
 			aBuf.Looping = true;
 
+			Inventory = new List<Entity>();
+
+			AllowPickup = false;
 		}
 
 		public override void Update(double time)
