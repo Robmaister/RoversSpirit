@@ -57,6 +57,8 @@ namespace RoversSpirit
 		{
 			base.OnLoad(e);
 
+			Resources.LoadAll();
+
 			curState.OnLoad(e);
 		}
 

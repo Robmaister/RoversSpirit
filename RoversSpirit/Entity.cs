@@ -122,6 +122,8 @@ namespace RoversSpirit
 
 			this.solid = solid;
 
+			Name = string.Empty;
+
 			RebuildModelMatrix();
 		}
 

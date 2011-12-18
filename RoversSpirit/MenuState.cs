@@ -46,7 +46,7 @@ namespace RoversSpirit
 			else
 			{
 				if (titleFont.Options.Colour.A <= 0.0f)
-					MainWindow.state = new WorldState();
+					MainWindow.state = new WorldState(new AreaMars());
 				else
 					titleFont.Options.Colour = new Color4(titleFont.Options.Colour.R, titleFont.Options.Colour.G, titleFont.Options.Colour.B, titleFont.Options.Colour.A - (float)e.Time * timeToFade);
 			}
