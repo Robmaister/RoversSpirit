@@ -50,7 +50,7 @@ namespace RoversSpirit
 			GL.Enable(EnableCap.Texture2D);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			font = new QFont("comic.ttf", 24);
+			font = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 24);
 
 			player = new Player();
 			
@@ -77,6 +77,7 @@ namespace RoversSpirit
 					area = tempNewArea;
 					area.LoadContent(data);
 					player.MoveTo(area.SetPlayerStartLocation(oldAreaType));
+					GL.ClearColor(area.ClearColor);
 					fadingOut = false;
 				}
 

@@ -135,6 +135,12 @@ namespace RoversSpirit
 			const float wallAboveDoorSize = (houseHeight - (doorAscent + doorSize));
 			const float halfWallAboveDoorSize = wallAboveDoorSize / 2;
 
+			const float stairsWidth = 96;
+			const float stairsHeight = 64;
+
+			const float stairsHalfWidth = stairsWidth / 2;
+			const float stairsHalfHeight = stairsHeight / 2;
+
 			//floor
 			EntList.Add(new BldgFloor(position, new Vector2(houseWidth, houseHeight)));
 
@@ -146,6 +152,11 @@ namespace RoversSpirit
 			//wall w/ entrance
 			EntList.Add(new BldgWall(position - new Vector2(-halfWidth - wallHalfWidth, halfHeight - (doorAscent / 2)), new Vector2(doorAscent, wallWidth), MathHelper.PiOver2));
 			EntList.Add(new BldgWall(position - new Vector2(-halfWidth - wallHalfWidth, halfHeight - doorTopHeight - halfWallAboveDoorSize), new Vector2(wallAboveDoorSize, wallWidth), MathHelper.PiOver2));
+
+			//stairs
+			Stairs s = new Stairs(position - new Vector2(halfWidth - stairsHalfWidth, -halfHeight + stairsHalfHeight));
+			EntList.Add(s);
+			AreaChangeTriggers.Add(new TriggerChangeArea(s.Position, s.Size, new AreaUpstairs()));
 		}
 	}
 }

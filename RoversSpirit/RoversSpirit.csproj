@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AreaCave.cs" />
     <Compile Include="AreaMars.cs" />
+    <Compile Include="AreaUpstairs.cs" />
     <Compile Include="Audio\AudioBuffer.cs" />
     <Compile Include="Area.cs" />
     <Compile Include="Entities\BldgFloor.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Entities\DoorKey.cs" />
     <Compile Include="Entities\Fuse.cs" />
     <Compile Include="Entities\ShipCore.cs" />
+    <Compile Include="Entities\Stairs.cs" />
     <Compile Include="Entities\Switch.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="Graphics\ColorBox.cs" />
@@ -80,9 +82,7 @@
     <Compile Include="TriggerPickup.cs" />
     <Compile Include="WorldState.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Fonts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\Audio\move.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -129,12 +129,20 @@
     <Content Include="Resources\Textures\rock1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Textures\stairs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Textures\switch.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\wallBrick.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fonts\Cousine-Regular-Latin.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

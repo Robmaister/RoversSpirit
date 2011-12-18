@@ -15,6 +15,7 @@ namespace RoversSpirit
 	public class MenuState : IState
 	{
 		private QFont titleFont;
+		private QFont subtitleFont;
 		private QFont itemFont;
 
 		private bool fadeOut;
@@ -23,10 +24,12 @@ namespace RoversSpirit
 
 		public void OnLoad(EventArgs e)
 		{
-			titleFont = new QFont("times.ttf", 72);
-			itemFont = new QFont("times.ttf", 36);
+			titleFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 72);
+			subtitleFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 24);
+			itemFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 36);
 
 			titleFont.Options.Colour = new Color4(183, 148, 106, 0);
+			subtitleFont.Options.Colour = new Color4(183, 148, 106, 0);
 
 			GL.ClearColor(Color.Black);
 			GL.Enable(EnableCap.Blend);
@@ -52,13 +55,19 @@ namespace RoversSpirit
 			}
 
 			itemFont.Options.Colour.A = titleFont.Options.Colour.A;
+			subtitleFont.Options.Colour.A = titleFont.Options.Colour.A;
 		}
 
 		public void OnRenderFrame(FrameEventArgs e)
 		{
 			GL.PushMatrix();
-			GL.Translate(0, -40, 0);
+			GL.Translate(0, -60, 0);
 			titleFont.Print("Rover's Spirit", QFontAlignment.Centre);
+			GL.PopMatrix();
+
+			GL.PushMatrix();
+			GL.Translate(0, 35, 0);
+			subtitleFont.Print("By Robert Rouhani\nFor Ludum Dare 22\nInspired by xkcd comic 695 \"Spirit\"", QFontAlignment.Centre);
 			GL.PopMatrix();
 
 			GL.PushMatrix();
