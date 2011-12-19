@@ -31,6 +31,7 @@ namespace RoversSpirit
 		private ColorBox fadeBox;
 		private ColorBox InventoryBox;
 		private bool fadingOut;
+		private bool gameWon;
 
 		public WorldState(Area area)
 		{
@@ -72,13 +73,22 @@ namespace RoversSpirit
 					fadeBox.Color = new Color4(0, 0, 0, fadeBox.Color.A + (float)e.Time * fadeTime);
 				else
 				{
-					Type oldAreaType = area.GetType();
-					area.Unload();
-					area = tempNewArea;
-					area.LoadContent(data);
-					player.MoveTo(area.SetPlayerStartLocation(oldAreaType));
-					GL.ClearColor(area.ClearColor);
-					fadingOut = false;
+					if (gameWon)
+					{
+						MainWindow.state = new EndMenuState();
+						Resources.StopAllAudio();
+						//Resources.UnloadAudioBuffers();
+					}
+					else
+					{
+						Type oldAreaType = area.GetType();
+						area.Unload();
+						area = tempNewArea;
+						area.LoadContent(data);
+						player.MoveTo(area.SetPlayerStartLocation(oldAreaType));
+						GL.ClearColor(area.ClearColor);
+						fadingOut = false;
+					}
 				}
 
 			}
@@ -137,6 +147,22 @@ namespace RoversSpirit
 					if (trigger.Button.Activated)
 					{
 						trigger.Activate();
+					}
+				}
+			}
+
+			foreach (TriggerEndgame trigger in area.EndgameTrigger)
+			{
+				if (PhysicsManager.IsColliding(player.BoundingBox, trigger.BBox))
+				{
+					if (Keyboard[Key.Z])
+					{
+						fadingOut = true;
+						gameWon = true;
+					}
+					else
+					{
+						message = "Press Z to repair the ship and leave!";
 					}
 				}
 			}

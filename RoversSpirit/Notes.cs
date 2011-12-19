@@ -21,7 +21,7 @@ namespace RoversSpirit
 			"and my spaceship is waiting outside, but it broke down many months ago. I'll go see what's wrong with it and try to fix it.";
 
 		public const string ShipNote = "Entry 4\n\n" +
-			"The spaceship is almost completely fixed, I just left a few pieces lying around. The storm looks really bad, I hope I can make it back alive…";
+			"The spaceship is almost completely fixed, I just left a few pieces lying around. The storm looks really bad, I hope I can make it back alive...";
 
 
 	}

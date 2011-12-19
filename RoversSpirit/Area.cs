@@ -18,6 +18,7 @@ namespace RoversSpirit
 		public List<TriggerChangeArea> AreaChangeTriggers { get; protected set; }
 		public List<TriggerButtonPress> ButtonPressTriggers { get; protected set; }
 		public List<TriggerReading> ReadingTriggers { get; protected set; }
+		public List<TriggerEndgame> EndgameTrigger { get; protected set; }
 
 		public Area()
 		{
@@ -27,6 +28,7 @@ namespace RoversSpirit
 			AreaChangeTriggers = new List<TriggerChangeArea>();
 			ButtonPressTriggers = new List<TriggerButtonPress>();
 			ReadingTriggers = new List<TriggerReading>();
+			EndgameTrigger = new List<TriggerEndgame>();
 		}
 
 		public abstract Vector2 SetPlayerStartLocation(Type previousArea);

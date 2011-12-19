@@ -71,6 +71,10 @@ namespace RoversSpirit
 				PickupTriggers.Add(new TriggerPickup(s.Position, new Vector2(64, 64), s));
 			}
 
+			Note n = new Note(Vector2.Zero);
+			EntList.Add(n);
+			ReadingTriggers.Add(new TriggerReading(n.Position, new Vector2(64, 64), Notes.HouseNote));
+
 			//stairs
 			Stairs st = new Stairs(position - (new Vector2(halfWidth - stairsHalfWidth - 80, -halfHeight + stairsHalfHeight)));
 			EntList.Add(st);

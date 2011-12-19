@@ -53,6 +53,7 @@
     <Compile Include="AreaUpstairs.cs" />
     <Compile Include="Audio\AudioBuffer.cs" />
     <Compile Include="Area.cs" />
+    <Compile Include="EndMenuState.cs" />
     <Compile Include="Entities\BldgFloor.cs" />
     <Compile Include="Entities\BldgWall.cs" />
     <Compile Include="Entities\Border.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Entities\Fuse.cs" />
     <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\ShipCore.cs" />
+    <Compile Include="Entities\SpaceshipExt.cs" />
+    <Compile Include="Entities\SpaceshipInt.cs" />
     <Compile Include="Entities\Stairs.cs" />
     <Compile Include="Entities\Switch.cs" />
     <Compile Include="GameData.cs" />
@@ -88,6 +91,7 @@
     <Compile Include="TriggerButtonPress.cs" />
     <Compile Include="TriggerChangeArea.cs" />
     <Compile Include="TriggerDoorOpen.cs" />
+    <Compile Include="TriggerEndgame.cs" />
     <Compile Include="TriggerPickup.cs" />
     <Compile Include="TriggerReading.cs" />
     <Compile Include="WorldState.cs" />
@@ -122,6 +126,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\note.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\spaceshipExt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\spaceshipInt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\trans.png">

@@ -104,6 +104,13 @@ namespace RoversSpirit
 				PickupTriggers.Add(new TriggerPickup(core.Position, core.Size + new Vector2(16, 16), core));
 				EntList.Add(core);
 			}
+
+			Note n = new Note(new Vector2(-b1.Position.X, b1.Position.Y));
+			EntList.Add(n);
+			ReadingTriggers.Add(new TriggerReading(n.Position, new Vector2(64, 64), Notes.CaveNote));
+
+			Resources.StopAllAudio();
+			Resources.Audio["shipStaticLoop.wav"].Play();
 		}
 
 		public override void Unload()

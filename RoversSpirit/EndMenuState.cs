@@ -12,11 +12,9 @@ using RoversSpirit.Graphics;
 
 namespace RoversSpirit
 {
-	public class MenuState : IState
+	public class EndMenuState : IState
 	{
-		private QFont titleFont;
 		private QFont subtitleFont;
-		private QFont itemFont;
 
 		private bool fadeOut;
 
@@ -24,11 +22,7 @@ namespace RoversSpirit
 
 		public void OnLoad(EventArgs e)
 		{
-			titleFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 72);
-			subtitleFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 22);
-			itemFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 36);
-
-			titleFont.Options.Colour = new Color4(183, 148, 106, 0);
+			subtitleFont = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", 24);
 			subtitleFont.Options.Colour = new Color4(183, 148, 106, 0);
 
 			GL.ClearColor(Color.Black);
@@ -43,36 +37,23 @@ namespace RoversSpirit
 
 			if (!fadeOut)
 			{
-				if (titleFont.Options.Colour.A < 1.0f)
-					titleFont.Options.Colour = new Color4(titleFont.Options.Colour.R, titleFont.Options.Colour.G, titleFont.Options.Colour.B, titleFont.Options.Colour.A + (float)e.Time * timeToFade);
+				if (subtitleFont.Options.Colour.A < 1.0f)
+					subtitleFont.Options.Colour = new Color4(subtitleFont.Options.Colour.R, subtitleFont.Options.Colour.G, subtitleFont.Options.Colour.B, subtitleFont.Options.Colour.A + (float)e.Time * timeToFade);
 			}
 			else
 			{
-				if (titleFont.Options.Colour.A <= 0.0f)
-					MainWindow.state = new WorldState(new AreaMars());
+				if (subtitleFont.Options.Colour.A <= 0.0f)
+					MainWindow.state = new MenuState();
 				else
-					titleFont.Options.Colour = new Color4(titleFont.Options.Colour.R, titleFont.Options.Colour.G, titleFont.Options.Colour.B, titleFont.Options.Colour.A - (float)e.Time * timeToFade);
+					subtitleFont.Options.Colour = new Color4(subtitleFont.Options.Colour.R, subtitleFont.Options.Colour.G, subtitleFont.Options.Colour.B, subtitleFont.Options.Colour.A - (float)e.Time * timeToFade);
 			}
-
-			itemFont.Options.Colour.A = titleFont.Options.Colour.A;
-			subtitleFont.Options.Colour.A = titleFont.Options.Colour.A;
 		}
 
 		public void OnRenderFrame(FrameEventArgs e)
 		{
 			GL.PushMatrix();
-			GL.Translate(0, -60, 0);
-			titleFont.Print("Rover's Spirit", QFontAlignment.Centre);
-			GL.PopMatrix();
-
-			GL.PushMatrix();
-			GL.Translate(0, 35, 0);
-			subtitleFont.Print("By Robert Rouhani\nFor Ludum Dare 22\nInspired by xkcd comic 695 \"Spirit\"\n\nControls: Arrow keys to move, Z to interact", QFontAlignment.Centre);
-			GL.PopMatrix();
-
-			GL.PushMatrix();
-			GL.Translate(0, (ClientSize.Height / 2) - 48, 0);
-			itemFont.Print("Press any key to start...", QFontAlignment.Centre);
+			GL.Translate(0, -80, 0);
+			subtitleFont.Print("And so you leave Mars...\nTo the dark, lonely depths of space.", QFontAlignment.Centre);
 			GL.PopMatrix();
 		}
 

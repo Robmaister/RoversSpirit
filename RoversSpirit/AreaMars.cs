@@ -30,7 +30,8 @@ namespace RoversSpirit
 			GenerateHouse1(new Vector2(-768, 256), data);
 
 			EntList.Add(new CaveStairs(new Vector2(-128, 768)));
-			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, -200), new Vector2(500, 50), new AreaShip()));
+			EntList.Add(new SpaceshipExt(new Vector2(-64, -400)));
+			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(-64, -200), new Vector2(96, 64), new AreaShip()));
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(-128, 768), new Vector2(64, 96), new AreaCave()));
 
 			Resources.StopAllAudio();
@@ -42,7 +43,7 @@ namespace RoversSpirit
 			if (previousArea == typeof(AreaUpstairs))
 				return new Vector2(-864, 416);
 			else if (previousArea == typeof(AreaCave))
-				return new Vector2(0, 1000);
+				return new Vector2(-128, 600);
 			return new Vector2(0, 0);
 		}
 
