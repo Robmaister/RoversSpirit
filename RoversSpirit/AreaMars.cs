@@ -24,15 +24,14 @@ namespace RoversSpirit
 				EntList.Add(new Pebble(new Vector2((float)(random.NextDouble() * 3000) - 1500, (float)(random.NextDouble() * 3000) - 1500), (random.Next(0, 2) == 1) ? Resources.Textures["pebble1.png"] : Resources.Textures["pebble2.png"]));
 			}
 
-			EntList.Add(new Rock(new Vector2(-100, 50), Resources.Textures["rock1.png"]));
+			//EntList.Add(new Rock(new Vector2(-100, 50), Resources.Textures["rock1.png"]));
 
 			GeneratePrison(new Vector2(512, 512), data);
 			GenerateHouse1(new Vector2(-768, 256), data);
 
+			EntList.Add(new CaveStairs(new Vector2(-128, 768)));
 			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, -200), new Vector2(500, 50), new AreaShip()));
-			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(0, 1250), new Vector2(1000, 100), new AreaCave()));
-
-			ReadingTriggers.Add(new TriggerReading(new Vector2(0, 256), new Vector2(128, 128), Notes.PrisonNote));
+			AreaChangeTriggers.Add(new TriggerChangeArea(new Vector2(-128, 768), new Vector2(64, 96), new AreaCave()));
 
 			Resources.StopAllAudio();
 			Resources.Audio["wind.wav"].Play();
@@ -102,7 +101,9 @@ namespace RoversSpirit
 				EntList.Add(prisonKey);
 			}
 
-
+			Note n = new Note(position - new Vector2(halfWidth, halfHeight) + new Vector2(64, 64));
+			EntList.Add(n);
+			ReadingTriggers.Add(new TriggerReading(n.Position, new Vector2(64, 64), Notes.PrisonNote));
 
 			//doors
 			Door prisonDoor = new Door(new Vector2(position.X - halfWidth + (cellDoorSize / 2), internalWallHeight), 0, "prison door");
@@ -123,7 +124,6 @@ namespace RoversSpirit
 				Fuse f = new Fuse(new Vector2(position.X - halfWidth + (cellSize / 2), internalWallHeight + (cellSize / 2)));
 				EntList.Add(f);
 				PickupTriggers.Add(new TriggerPickup(f.Position, new Vector2(64, 64), f));
-
 			}
 		}
 

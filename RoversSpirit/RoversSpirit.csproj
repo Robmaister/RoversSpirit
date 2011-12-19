@@ -58,10 +58,12 @@
     <Compile Include="Entities\Border.cs" />
     <Compile Include="Entities\Button.cs" />
     <Compile Include="Entities\CaveFloor.cs" />
+    <Compile Include="Entities\CaveStairs.cs" />
     <Compile Include="Entities\CaveWall.cs" />
     <Compile Include="Entities\Door.cs" />
     <Compile Include="Entities\DoorKey.cs" />
     <Compile Include="Entities\Fuse.cs" />
+    <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\ShipCore.cs" />
     <Compile Include="Entities\Stairs.cs" />
     <Compile Include="Entities\Switch.cs" />
@@ -113,7 +115,13 @@
     <Content Include="Resources\Textures\caveFloor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Textures\caveStairs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Textures\caveWall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\note.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\trans.png">

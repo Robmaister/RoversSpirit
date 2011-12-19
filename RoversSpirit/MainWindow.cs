@@ -132,7 +132,7 @@ namespace RoversSpirit
 			float paperWidth = 8.5f * paperHeight / 11.0f;
 
 			paper = new ColorBox(new Vector2(ClientSize.Width / 2 - paperWidth / 2, ClientSize.Height / 2 - paperHeight / 2), new Vector2(paperWidth, paperHeight), Color4.White);
-			ink = new QFont("Resources/Fonts/Graziano.ttf", ClientSize.Height / 16);
+			ink = new QFont("Resources/Fonts/Cousine-Regular-Latin.ttf", ClientSize.Height / 36);
 			ink.Options.Colour = Color.Black;
 		}
 
